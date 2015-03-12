@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+        .nav.open {
+           display: block; 
+        }
+        .nav.closed {
+           display: none; 
+        }
+    </style>
+</head>
+    <body>
+        
+        <a href="#toggle-nav">Toggle Nav</a>
+        <ul class="nav closed">
+            <li>
+                <a href="#">Link 1</a>
+                <ul>
+                    <li>
+                        <a href="#">Sub nav item</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Link 2</a>
+                <ul>
+                    <li><a href="#">Sub nav item 2</a></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <p>Here is some other content</p>
+        
+        <a href="#anotherlink">There is another link here that can be clicked on.</a>
+    
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script>
+            (function ($) {
+
+                var doc, nav, toggleNav;
+
+                function ready() {
+                    doc = $(document);
+                    nav = $('.nav');
+                    console.log(nav);
+                    toggleNav = $("a[href='#toggle-nav']");
+                    doc.on('click', onDocClick);
+                    toggleNav.on('click', toggleNavClick);
+                }
+
+                function toggleNavClick(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (nav.hasClass('open')) {
+                        nav.removeClass('open');
+                        nav.addClass('closed');
+                    }
+                    else {
+                        nav.removeClass('closed');
+                        nav.addClass('open');
+                    }
+                }
+
+                function onDocClick(e) {
+                    // Check if this is a nav item, otherwise don't close the nav.
+                    var clicked = $(e.target);
+                    console.log(clicked);
+
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // If the nav is open and clicking somewhere outside of the nav close the nav.
+                    if (nav.hasClass('open') && clicked.closest('.nav').length === 0) {
+                        // close the nav.
+                        nav.removeClass('open').addClass('closed');
+                    }
+                }
+
+                $(ready);
+
+            })(jQuery);
+        </script>
+    </body>
+</html>
